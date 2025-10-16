@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Резюме - Олег Ницак{% endblock %}
+
+{% block content %}
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="text-center mb-5">
+          <img src="{{ url_for('static', filename='images/profile.jpg') }}"
+               alt="Олег Ницак"
+               class="profile-photo rounded-circle mb-3">
+          <h1 class="display-4">Олег Ницак</h1>
+          <p class="lead text-muted">Інженер-програміст</p>
+        </div>
+
+        <section id="about" class="mb-5">
+          <h2 class="section-title">
+            <i class="bi bi-person-fill"></i> Про себе
+          </h2>
+          <div class="section-content">
+            <p>
+              Я студент третього курсу спеціальності "Інженерія програмного забезпечення"
+              в Прикарпатському національному університеті імені Василя Стефаника.
+              Захоплююся розробкою програмного забезпечення та постійно вдосконалюю свої навички
+              у різних технологіях та фреймворках.
+            </p>
+          </div>
+        </section>
+
+        <section id="education" class="mb-5">
+          <h2 class="section-title">
+            <i class="bi bi-book-fill"></i> Освіта
+          </h2>
+          <div class="section-content">
+            <div class="education-item">
+              <h4>Карпатський національний університет імені Василя Стефаника</h4>
+              <p class="text-muted">2023 - 2027</p>
+              <p><strong>Спеціальність:</strong> Інженерія програмного забезпечення</p>
+              <p><strong>Рівень:</strong> Бакалавр</p>
+              <p><strong>Курс:</strong> 3-й курс</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="skills" class="mb-5">
+          <h2 class="section-title">
+            <i class="bi bi-lightbulb-fill"></i> Навички
+          </h2>
+          <div class="section-content">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <h5>Програмування</h5>
+                <ul class="list-unstyled">
+                  <li>✓ Об'єктно-орієнтоване програмування</li>
+                  <li>✓ Алгоритми та структури даних</li>
+                  <li>✓ Веб-розробка (Front-end/Back-end)</li>
+                  <li>✓ Робота з базами даних</li>
+                  <li>✓ Програмування вбудованих систем</li>
+                  <li>✓ Тестування програмного забезпечення</li>
+                </ul>
+              </div>
+              <div class="col-md-6 mb-3">
+                <h5>Soft Skills</h5>
+                <ul class="list-unstyled">
+                  <li>✓ Командна робота</li>
+                  <li>✓ Аналітичне мислення</li>
+                  <li>✓ Швидке навчання</li>
+                  <li>✓ Управління часом</li>
+                  <li>✓ Аналіз вимог до ПЗ</li>
+                  <li>✓ Моделювання систем</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="technologies" class="mb-5">
+          <h2 class="section-title">
+            <i class="bi bi-cpu-fill"></i> Технології
+          </h2>
+          <div class="section-content">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="tech-card">
+                  <h5>Мови програмування</h5>
+                  <span class="badge bg-primary me-1 mb-1">C</span>
+                  <span class="badge bg-primary me-1 mb-1">Java</span>
+                  <span class="badge bg-primary me-1 mb-1">Python</span>
+                  <span class="badge bg-primary me-1 mb-1">PHP</span>
+                  <span class="badge bg-primary me-1 mb-1">JavaScript</span>
+                  <span class="badge bg-primary me-1 mb-1">Bash</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="tech-card">
+                  <h5>Фреймворки та технології</h5>
+                  <span class="badge bg-success me-1 mb-1">Angular</span>
+                  <span class="badge bg-success me-1 mb-1">HTML/CSS</span>
+                  <span class="badge bg-success me-1 mb-1">Flask</span>
+                  <span class="badge bg-success me-1 mb-1">Bootstrap</span>
+                  <span class="badge bg-success me-1 mb-1">Arduino</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="tech-card">
+                  <h5>Інструменти та системи</h5>
+                  <span class="badge bg-info me-1 mb-1">Git</span>
+                  <span class="badge bg-info me-1 mb-1">Linux</span>
+                  <span class="badge bg-info me-1 mb-1">MS SQL</span>
+                  <span class="badge bg-info me-1 mb-1">Networking</span>
+                  <span class="badge bg-info me-1 mb-1">CCNA</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="projects" class="mb-5">
+          <h2 class="section-title">
+            <i class="bi bi-briefcase-fill"></i> Проекти
+          </h2>
+          <div class="section-content">
+            <div class="project-item mb-4">
+              <h4>Restaurant Menu / Food Order App</h4>
+              <p class="text-muted">Жовтень 2025 - Грудень 2025</p>
+              <p>
+                Розробка веб-додатку для замовлення їжі з інтерактивним меню ресторану.
+                Створено систему перегляду страв з детальними описами та фото, кошик для замовлень,
+                фільтрацію за категоріями та пошук по меню. Реалізовано адаптивний дизайн для
+                зручного використання на мобільних пристроях.
+              </p>
+              <p><strong>Технології:</strong> Angular, TypeScript, HTML, CSS, Bootstrap</p>
+            </div>
+
+            <div class="project-item mb-4">
+              <h4>Робототехнічний проект на Arduino</h4>
+              <p class="text-muted">Листопад 2023 - Лютий 2024</p>
+              <p>
+                Розробка системи управління для робототехнічного пристрою на базі Arduino.
+                Реалізовано систему сенсорів, алгоритми обробки сигналів та
+                інтерфейс керування.
+              </p>
+              <p><strong>Технології:</strong> Arduino, C/C++, Електроніка</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+{% endblock %}
