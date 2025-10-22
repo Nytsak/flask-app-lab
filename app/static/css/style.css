@@ -54,3 +54,38 @@ nav ul li a {
 nav ul li a:hover {
     background-color: #ecf0f1;
 }
+
+.products-list {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.product-item {
+    padding: 1.5rem;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+.product-item h3 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.price {
+    color: #27ae60;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+}
+
+.product-detail {
+    margin-top: 1.5rem;
+}
+
+.product-detail .description {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
