@@ -9,6 +9,7 @@ from flask import (
 )
 
 from . import users_bp
+from .forms import ContactForm
 
 VALID_USERS = {
     'admin': 'admin123',
@@ -150,3 +151,33 @@ def set_color(scheme):
     response.set_cookie('color_scheme', scheme, max_age=60 * 60 * 24 * 365)
     flash(f'Кольорову схему змінено на "{scheme}"!', 'info')
     return response
+
+
+@users_bp.route("/contact", methods=['GET', 'POST'])
+def contact():
+    form = ContactForm()
+
+    if form.validate_on_submit():
+        name = form.name.data
+        email = form.email.data
+        phone = form.phone.data
+        subject = form.subject.data
+        message = form.message.data
+
+        try:
+            flash(
+                f'Дякуємо за ваше повідомлення, {name}! '
+                f'Ми зв\'яжемося з вами на {email}.',
+                'success'
+            )
+            return redirect(url_for('users_bp.contact'))
+
+        except Exception as e:
+            flash(
+                f'Виникла помилка при відправці повідомлення від {name} ({email}). '
+                f'Будь ласка, спробуйте ще раз.',
+                'danger'
+            )
+            return redirect(url_for('users_bp.contact'))
+
+    return render_template("users/contact.html", form=form)
