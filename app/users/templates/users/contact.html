@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% from "macros.html" import render_field %}
+
+{% block title %}Контакти - Олег Ницак{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h2>Контактна форма</h2>
+        </div>
+        <div class="card-body">
+          <form method="POST" action="{{ url_for('users_bp.contact') }}" novalidate>
+            {{ form.hidden_tag() }}
+
+            {{ render_field(form.name) }}
+            {{ render_field(form.email) }}
+            {{ render_field(form.phone) }}
+            {{ render_field(form.subject) }}
+            {{ render_field(form.message) }}
+
+            <div class="d-grid">
+              {{ form.submit(class="btn btn-primary btn-lg") }}
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <h4>Контактна інформація</h4>
+        <p><strong>Email:</strong> oleg.nytsak@example.com</p>
+        <p><strong>Телефон:</strong> +380123456789</p>
+        <p><strong>Адреса:</strong> м. Івано-Франківськ, Україна</p>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
