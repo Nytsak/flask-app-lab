@@ -70,3 +70,28 @@ class ContactForm(FlaskForm):
     )
 
     submit = SubmitField('Відправити')
+
+
+class LoginForm(FlaskForm):
+    username = StringField(
+        'Ім\'я користувача',
+        validators=[
+            DataRequired(message='Це поле є обов\'язковим')
+        ]
+    )
+
+    password = PasswordField(
+        'Пароль',
+        validators=[
+            DataRequired(message='Це поле є обов\'язковим'),
+            Length(
+                min=4,
+                max=10,
+                message='Пароль має бути від 4 до 10 символів'
+            )
+        ]
+    )
+
+    remember = BooleanField('Запам\'ятати мене')
+
+    submit = SubmitField('Увійти')
