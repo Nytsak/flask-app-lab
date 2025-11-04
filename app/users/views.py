@@ -7,9 +7,17 @@ from flask import (
     flash,
     make_response
 )
+from loguru import logger
 
 from . import users_bp
 from .forms import ContactForm
+
+logger.add(
+    "logs/contact_form.log",
+    rotation="1 MB",
+    retention="10 days",
+    format="{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}"
+)
 
 VALID_USERS = {
     'admin': 'admin123',
@@ -165,6 +173,15 @@ def contact():
         message = form.message.data
 
         try:
+            logger.info(
+                f"Contact form submission - "
+                f"Name: {name}, "
+                f"Email: {email}, "
+                f"Phone: {phone}, "
+                f"Subject: {subject}, "
+                f"Message: {message}"
+            )
+
             flash(
                 f'Дякуємо за ваше повідомлення, {name}! '
                 f'Ми зв\'яжемося з вами на {email}.',
@@ -173,6 +190,7 @@ def contact():
             return redirect(url_for('users_bp.contact'))
 
         except Exception as e:
+            logger.error(f"Error saving contact form: {str(e)}")
             flash(
                 f'Виникла помилка при відправці повідомлення від {name} ({email}). '
                 f'Будь ласка, спробуйте ще раз.',
