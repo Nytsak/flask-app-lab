@@ -10,7 +10,7 @@ from flask import (
 from loguru import logger
 
 from . import users_bp
-from .forms import ContactForm
+from .forms import ContactForm, LoginForm
 
 logger.add(
     "logs/contact_form.log",
@@ -48,19 +48,23 @@ def admin():
 
 @users_bp.route("/login", methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        remember = form.remember.data
 
         if username in VALID_USERS and VALID_USERS[username] == password:
             session['username'] = username
-            flash('Ви успішно увійшли в систему!', 'success')
+            remember_text = " (з опцією 'Запам'ятати мене')" if remember else ""
+            flash(f'Ви успішно увійшли в систему{remember_text}!', 'success')
             return redirect(url_for('users_bp.profile'))
         else:
             flash('Невірне ім\'я користувача або пароль!', 'danger')
             return redirect(url_for('users_bp.login'))
 
-    return render_template("users/login.html")
+    return render_template("users/login.html", form=form)
 
 
 @users_bp.route("/profile")
