@@ -67,10 +67,13 @@ def profile():
     cookies = {key: value for key, value in request.cookies.items()
                if key not in ['session']}
 
+    color_scheme = request.cookies.get('color_scheme', 'light')
+
     return render_template(
         "users/profile.html",
         username=username,
         cookies=cookies,
+        color_scheme=color_scheme
     )
 
 
@@ -135,4 +138,15 @@ def delete_all_cookies():
             response.delete_cookie(key)
 
     flash('Всі кукі успішно видалено!', 'success')
+    return response
+
+
+@users_bp.route("/set_color/<scheme>")
+def set_color(scheme):
+    if scheme not in ['light', 'dark']:
+        scheme = 'light'
+
+    response = make_response(redirect(url_for('users_bp.profile')))
+    response.set_cookie('color_scheme', scheme, max_age=60 * 60 * 24 * 365)
+    flash(f'Кольорову схему змінено на "{scheme}"!', 'info')
     return response
