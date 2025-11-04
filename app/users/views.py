@@ -7,8 +7,17 @@ from flask import (
     flash,
     make_response
 )
+from loguru import logger
 
 from . import users_bp
+from .forms import ContactForm, LoginForm
+
+logger.add(
+    "logs/contact_form.log",
+    rotation="1 MB",
+    retention="10 days",
+    format="{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}"
+)
 
 VALID_USERS = {
     'admin': 'admin123',
@@ -39,19 +48,23 @@ def admin():
 
 @users_bp.route("/login", methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        remember = form.remember.data
 
         if username in VALID_USERS and VALID_USERS[username] == password:
             session['username'] = username
-            flash('Ви успішно увійшли в систему!', 'success')
+            remember_text = " (з опцією 'Запам'ятати мене')" if remember else ""
+            flash(f'Ви успішно увійшли в систему{remember_text}!', 'success')
             return redirect(url_for('users_bp.profile'))
         else:
             flash('Невірне ім\'я користувача або пароль!', 'danger')
             return redirect(url_for('users_bp.login'))
 
-    return render_template("users/login.html")
+    return render_template("users/login.html", form=form)
 
 
 @users_bp.route("/profile")
@@ -150,3 +163,43 @@ def set_color(scheme):
     response.set_cookie('color_scheme', scheme, max_age=60 * 60 * 24 * 365)
     flash(f'Кольорову схему змінено на "{scheme}"!', 'info')
     return response
+
+
+@users_bp.route("/contact", methods=['GET', 'POST'])
+def contact():
+    form = ContactForm()
+
+    if form.validate_on_submit():
+        name = form.name.data
+        email = form.email.data
+        phone = form.phone.data
+        subject = form.subject.data
+        message = form.message.data
+
+        try:
+            logger.info(
+                f"Contact form submission - "
+                f"Name: {name}, "
+                f"Email: {email}, "
+                f"Phone: {phone}, "
+                f"Subject: {subject}, "
+                f"Message: {message}"
+            )
+
+            flash(
+                f'Дякуємо за ваше повідомлення, {name}! '
+                f'Ми зв\'яжемося з вами на {email}.',
+                'success'
+            )
+            return redirect(url_for('users_bp.contact'))
+
+        except Exception as e:
+            logger.error(f"Error saving contact form: {str(e)}")
+            flash(
+                f'Виникла помилка при відправці повідомлення від {name} ({email}). '
+                f'Будь ласка, спробуйте ще раз.',
+                'danger'
+            )
+            return redirect(url_for('users_bp.contact'))
+
+    return render_template("users/contact.html", form=form)
