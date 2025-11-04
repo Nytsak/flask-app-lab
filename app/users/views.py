@@ -69,3 +69,9 @@ def profile():
         username=username,
     )
 
+
+@users_bp.route("/logout")
+def logout():
+    session.pop('username', None)
+    flash('Ви успішно вийшли з системи!', 'info')
+    return redirect(url_for('users_bp.login'))
