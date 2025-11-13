@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Усі пости{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{{ url_for('posts_bp.static', filename='css/posts.css') }}">
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1>Усі пости</h1>
+      <a href="{{ url_for('posts_bp.create_post') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Додати пост
+      </a>
+    </div>
+
+    {% if posts %}
+      <div class="row">
+        {% for post in posts %}
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card post-card h-100">
+              <img src="{{ url_for('posts_bp.static', filename='img/default.jpg') }}"
+                   class="card-img-top post-image"
+                   alt="{{ post.title }}">
+              <div class="card-body">
+                <span class="badge bg-info text-dark mb-2">{{ post.category.value }}</span>
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text">{{ post.content[:100] }}{% if post.content|length > 100 %}...{% endif %}</p>
+                <p class="text-muted small">
+                  <i class="fas fa-user"></i> {{ post.author }} |
+                  <i class="fas fa-calendar"></i> {{ post.posted.strftime('%d.%m.%Y %H:%M') }}
+                </p>
+              </div>
+              <div class="card-footer bg-transparent">
+                <a href="{{ url_for('posts_bp.detail_post', id=post.id) }}" class="btn btn-sm btn-outline-primary">
+                  Читати далі <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="alert alert-info">
+        <i class="fas fa-info-circle"></i> Поки що немає постів.
+        <a href="{{ url_for('posts_bp.create_post') }}" class="alert-link">Створіть перший!</a>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+

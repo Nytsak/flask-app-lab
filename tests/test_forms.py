@@ -1,5 +1,5 @@
 import unittest
-from app import app
+from app import create_app
 from app.users.forms import ContactForm, LoginForm
 
 
@@ -8,9 +8,7 @@ class TestContactForm(unittest.TestCase):
 
     def setUp(self):
         """Налаштування перед кожним тестом"""
-        self.app = app
-        self.app.config['TESTING'] = True
-        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app = create_app('testing')
         self.ctx = self.app.test_request_context()
         self.ctx.push()
         self.client = self.app.test_client()
@@ -121,6 +119,21 @@ class TestLoginForm(unittest.TestCase):
         self.app = app
         self.app.config['TESTING'] = True
         self.app.config['WTF_CSRF_ENABLED'] = False
+        self.ctx = self.app.test_request_context()
+        self.ctx.push()
+        self.client = self.app.test_client()
+
+    def tearDown(self):
+        """Очищення після кожного тесту"""
+        self.ctx.pop()
+
+
+class TestLoginForm(unittest.TestCase):
+    """Тести для LoginForm"""
+
+    def setUp(self):
+        """Налаштування перед кожним тестом"""
+        self.app = create_app('testing')
         self.ctx = self.app.test_request_context()
         self.ctx.push()
         self.client = self.app.test_client()
