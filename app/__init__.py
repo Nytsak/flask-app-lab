@@ -42,4 +42,8 @@ def create_app(
         app.register_blueprint(products_bp)
         app.register_blueprint(posts_bp)
 
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template("404.html"), 404
+
     return app
