@@ -5,6 +5,21 @@ from .models import Post
 from .forms import PostForm
 
 
+@posts_bp.route('/')
+def all_posts():
+    stmt = db.select(Post).where(Post.is_active == True).order_by(
+        Post.posted.desc()
+    )
+    posts = db.session.scalars(stmt).all()
+    return render_template('all_posts.html', posts=posts)
+
+
+@posts_bp.route('/<int:id>')
+def detail_post(id):
+    post = db.get_or_404(Post, id)
+    return render_template('detail_post.html', post=post)
+
+
 @posts_bp.route('/create', methods=['GET', 'POST'])
 def create_post():
     form = PostForm()
