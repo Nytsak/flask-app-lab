@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import db
 from . import posts_bp
-from .models import Post
+from .models import Post, CategoryEnum
 from .forms import PostForm
 
 
@@ -33,7 +33,7 @@ def create_post():
             content=form.content.data,
             is_active=form.enabled.data,
             posted=form.publish_date.data,
-            category=form.category.data,
+            category=CategoryEnum[form.category.data],
             author=author
         )
 
@@ -58,13 +58,14 @@ def update_post(id):
     if request.method == 'GET':
         form.publish_date.data = post.posted
         form.enabled.data = post.is_active
+        form.category.data = post.category.value
 
     if form.validate_on_submit():
         post.title = form.title.data
         post.content = form.content.data
         post.is_active = form.enabled.data
         post.posted = form.publish_date.data
-        post.category = form.category.data
+        post.category = CategoryEnum[form.category.data]
 
         db.session.commit()
 

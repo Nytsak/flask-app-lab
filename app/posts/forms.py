@@ -11,8 +11,6 @@ from wtforms import (
 )
 from wtforms.validators import DataRequired, Length
 
-from .models import CategoryEnum
-
 
 class PostForm(FlaskForm):
     title = StringField(
@@ -46,13 +44,12 @@ class PostForm(FlaskForm):
     category = SelectField(
         'Категорія',
         choices=[
-            (CategoryEnum.news, 'Новини'),
-            (CategoryEnum.publication, 'Публікація'),
-            (CategoryEnum.tech, 'Технології'),
-            (CategoryEnum.other, 'Інше')
+            ('news', 'Новини'),
+            ('publication', 'Публікація'),
+            ('tech', 'Технології'),
+            ('other', 'Інше')
         ],
-        default=CategoryEnum.other,
-        coerce=CategoryEnum
+        default='other'
     )
 
     submit = SubmitField('Зберегти')
