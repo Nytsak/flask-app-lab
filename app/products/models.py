@@ -1,4 +1,6 @@
-from sqlalchemy import Integer, String, Float, Boolean, text
+from datetime import datetime
+
+from sqlalchemy import Integer, String, Float, Boolean, text, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app import db
@@ -10,7 +12,13 @@ class Product(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     price: Mapped[float] = mapped_column(Float, nullable=False)
-    active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default=text('true'))
+    active: Mapped[bool] = mapped_column(
+        Boolean,
+        nullable=False,
+        default=True,
+        server_default=text('true')
+    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=datetime.utcnow)
 
     category_id: Mapped[int | None] = mapped_column(
         db.ForeignKey("categories.id")
