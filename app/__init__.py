@@ -20,7 +20,7 @@ migrate = Migrate()
 
 
 def create_app(
-    config_name: str = os.environ.get("FLASK_CONFIG", "dev")
+    config_name: str = os.environ.get("FLASK_CONFIG", "development")
 ) -> Flask:
     app = Flask(__name__)
 
