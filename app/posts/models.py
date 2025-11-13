@@ -22,6 +22,8 @@ class Post(db.Model):
         default=CategoryEnum.other,
         nullable=False
     )
+    is_active = db.Column(db.Boolean, default=True, nullable=False)
+    author = db.Column(db.String(20), default='Anonymous', nullable=False)
 
     def __repr__(self):
-        return f'<Post {self.id}: {self.title}>'
+        return f'<Post {self.id}: {self.title} by {self.author}>'
