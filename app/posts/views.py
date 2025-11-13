@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from app import db
 from . import posts_bp
 from .models import Post
@@ -32,4 +32,32 @@ def create_post():
         'add_post.html',
         form=form,
         title='Створити пост'
+    )
+
+
+@posts_bp.route('/<int:id>/update', methods=['GET', 'POST'])
+def update_post(id):
+    post = db.get_or_404(Post, id)
+    form = PostForm(obj=post)
+
+    if request.method == 'GET':
+        form.publish_date.data = post.posted
+        form.enabled.data = post.is_active
+
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        post.is_active = form.enabled.data
+        post.posted = form.publish_date.data
+        post.category = form.category.data
+
+        db.session.commit()
+
+        flash('Пост успішно оновлено!', 'success')
+        return redirect(url_for('posts_bp.detail_post', id=post.id))
+
+    return render_template(
+        'add_post.html',
+        form=form,
+        title='Редагувати пост'
     )
