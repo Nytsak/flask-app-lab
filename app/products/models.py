@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Integer, String, Float, Boolean, text, DateTime
+from sqlalchemy import Integer, String, Float, Boolean, text, DateTime, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app import db
@@ -18,7 +18,11 @@ class Product(db.Model):
         default=True,
         server_default=text('true')
     )
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now()
+    )
 
     category_id: Mapped[int | None] = mapped_column(
         db.ForeignKey("categories.id")
