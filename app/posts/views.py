@@ -61,3 +61,17 @@ def update_post(id):
         form=form,
         title='Редагувати пост'
     )
+
+
+@posts_bp.route('/<int:id>/delete', methods=['GET', 'POST'])
+def delete_post(id):
+    post = db.get_or_404(Post, id)
+
+    if request.method == 'POST':
+        db.session.delete(post)
+        db.session.commit()
+
+        flash('Пост успішно видалено!', 'success')
+        return redirect(url_for('posts_bp.all_posts'))
+
+    return render_template('delete_confirm.html', post=post)
